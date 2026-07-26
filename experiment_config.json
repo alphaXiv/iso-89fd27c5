@@ -1,5 +1,5 @@
 {
-  "seed": 11,
+  "seed": 22,
   "model": "google/bert_uncased_L-2_H-128_A-2",
   "train_examples_per_task": 4096,
   "max_steps": 160,
