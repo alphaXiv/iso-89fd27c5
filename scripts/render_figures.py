@@ -25,7 +25,7 @@ MUTED = "#64748b"
 def header(title: str, subtitle: str, width: int = 920, height: int = 500) -> list[str]:
     return [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
-        '<rect width="100%" height="100%" fill="#ffffff"/>',
+        f'<rect width="{width}" height="{height}" fill="#ffffff"/>',
         f'<text x="48" y="48" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="700" fill="{TEXT}">{title}</text>',
         f'<text x="48" y="76" font-family="Inter,Arial,sans-serif" font-size="14" fill="{MUTED}">{subtitle}</text>',
     ]

@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="920" height="500" viewBox="0 0 920 500">
-<rect width="100%" height="100%" fill="#ffffff"/>
+<rect width="920" height="500" fill="#ffffff"/>
 <text x="48" y="48" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="700" fill="#172033">Ablations did not isolate the proposed benefit</text>
 <text x="48" y="76" font-family="Inter,Arial,sans-serif" font-size="14" fill="#64748b">Balanced accuracy change from full ISO; all observed changes were non-negative</text>
 <line x1="100" y1="370.2" x2="875" y2="370.2" stroke="#dbe4ee"/>

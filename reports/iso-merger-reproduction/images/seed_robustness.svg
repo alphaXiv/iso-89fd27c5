@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="920" height="500" viewBox="0 0 920 500">
-<rect width="100%" height="100%" fill="#ffffff"/>
+<rect width="920" height="500" fill="#ffffff"/>
 <text x="48" y="48" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="700" fill="#172033">The method ordering held for every seed</text>
 <text x="48" y="76" font-family="Inter,Arial,sans-serif" font-size="14" fill="#64748b">Balanced accuracy difference relative to ISO; positive favors the comparison method</text>
 <line x1="100" y1="246.7" x2="875" y2="246.7" stroke="#172033" stroke-width="2"/>
