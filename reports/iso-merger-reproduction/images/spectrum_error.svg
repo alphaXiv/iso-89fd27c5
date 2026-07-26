@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="500" viewBox="0 0 920 500">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="48" y="48" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="700" fill="#172033">Spectrum preservation spans ten orders of magnitude</text>
+<text x="48" y="76" font-family="Inter,Arial,sans-serif" font-size="14" fill="#64748b">Worst relative error over 85 matrix checks; x-axis is log₁₀(relative error)</text>
+<line x1="280.0" y1="125" x2="280.0" y2="410" stroke="#dbe4ee"/>
+<text x="280.0" y="435.0" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#64748b">-14</text>
+<line x1="350.0" y1="125" x2="350.0" y2="410" stroke="#dbe4ee"/>
+<text x="350.0" y="435.0" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#64748b">-12</text>
+<line x1="420.0" y1="125" x2="420.0" y2="410" stroke="#dbe4ee"/>
+<text x="420.0" y="435.0" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#64748b">-10</text>
+<line x1="490.0" y1="125" x2="490.0" y2="410" stroke="#dbe4ee"/>
+<text x="490.0" y="435.0" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#64748b">-8</text>
+<line x1="560.0" y1="125" x2="560.0" y2="410" stroke="#dbe4ee"/>
+<text x="560.0" y="435.0" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#64748b">-6</text>
+<line x1="630.0" y1="125" x2="630.0" y2="410" stroke="#dbe4ee"/>
+<text x="630.0" y="435.0" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#64748b">-4</text>
+<line x1="700.0" y1="125" x2="700.0" y2="410" stroke="#dbe4ee"/>
+<text x="700.0" y="435.0" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#64748b">-2</text>
+<text x="262.0" y="170.0" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="13" font-weight="400" fill="#172033">ISO float64 reconstruction</text>
+<line x1="280" y1="165" x2="315.6" y2="165" stroke="#2563eb" stroke-width="5"/>
+<circle cx="315.6" cy="165" r="8" fill="#2563eb"/>
+<text x="329.6" y="170.0" text-anchor="start" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="700" fill="#2563eb">10^-12.98</text>
+<text x="262.0" y="238.0" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="13" font-weight="400" fill="#172033">ISO float32 checkpoint</text>
+<line x1="280" y1="233" x2="497.2" y2="233" stroke="#0891b2" stroke-width="5"/>
+<circle cx="497.2" cy="233" r="8" fill="#0891b2"/>
+<text x="511.2" y="238.0" text-anchor="start" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="700" fill="#0891b2">10^-7.79</text>
+<text x="262.0" y="306.0" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="13" font-weight="400" fill="#172033">Float32 tolerance</text>
+<line x1="280" y1="301" x2="595.0" y2="301" stroke="#172554" stroke-width="5"/>
+<circle cx="595.0" cy="301" r="8" fill="#172554"/>
+<text x="609.0" y="306.0" text-anchor="start" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="700" fill="#172554">10^-5.00</text>
+<text x="262.0" y="374.0" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="13" font-weight="400" fill="#172033">No-restoration drift</text>
+<line x1="280" y1="369" x2="667.2" y2="369" stroke="#dc2626" stroke-width="5"/>
+<circle cx="667.2" cy="369" r="8" fill="#dc2626"/>
+<text x="670.0" y="374.0" text-anchor="start" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="700" fill="#dc2626">10^-2.94</text>
+<text x="48.0" y="478.0" text-anchor="start" font-family="Inter,Arial,sans-serif" font-size="14" font-weight="400" fill="#64748b">Base-spectrum reconstruction passed both preregistered tolerances on every seed and matrix.</text>
+</svg>

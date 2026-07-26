@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="500" viewBox="0 0 920 500">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="48" y="48" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="700" fill="#172033">Ablations did not isolate the proposed benefit</text>
+<text x="48" y="76" font-family="Inter,Arial,sans-serif" font-size="14" fill="#64748b">Balanced accuracy change from full ISO; all observed changes were non-negative</text>
+<line x1="100" y1="370.2" x2="875" y2="370.2" stroke="#dbe4ee"/>
+<text x="90.0" y="374.2" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#64748b">+0.00 pp</text>
+<line x1="100" y1="300.7" x2="875" y2="300.7" stroke="#dbe4ee"/>
+<text x="90.0" y="304.7" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#64748b">+0.10 pp</text>
+<line x1="100" y1="231.2" x2="875" y2="231.2" stroke="#dbe4ee"/>
+<text x="90.0" y="235.2" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#64748b">+0.20 pp</text>
+<line x1="100" y1="161.7" x2="875" y2="161.7" stroke="#dbe4ee"/>
+<text x="90.0" y="165.7" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#64748b">+0.30 pp</text>
+<circle cx="130" cy="351.2" r="8" fill="#059669"/>
+<circle cx="150" cy="243.0" r="8" fill="#dc2626"/>
+<text x="140.0" y="433.0" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#172033">seed 11</text>
+<circle cx="270" cy="363.9" r="8" fill="#059669"/>
+<circle cx="290" cy="199.8" r="8" fill="#dc2626"/>
+<text x="280.0" y="433.0" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#172033">seed 22</text>
+<circle cx="410" cy="305.0" r="8" fill="#059669"/>
+<circle cx="430" cy="196.8" r="8" fill="#dc2626"/>
+<text x="420.0" y="433.0" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#172033">seed 33</text>
+<circle cx="550" cy="252.4" r="8" fill="#059669"/>
+<circle cx="570" cy="155.2" r="8" fill="#dc2626"/>
+<text x="560.0" y="433.0" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#172033">seed 44</text>
+<circle cx="690" cy="330.3" r="8" fill="#059669"/>
+<circle cx="710" cy="308.3" r="8" fill="#dc2626"/>
+<text x="700.0" y="433.0" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#172033">seed 55</text>
+<circle cx="390" cy="468" r="7" fill="#059669"/>
+<text x="405.0" y="473.0" text-anchor="start" font-family="Inter,Arial,sans-serif" font-size="13" font-weight="400" fill="#172033">No restoration − ISO</text>
+<circle cx="620" cy="468" r="7" fill="#dc2626"/>
+<text x="635.0" y="473.0" text-anchor="start" font-family="Inter,Arial,sans-serif" font-size="13" font-weight="400" fill="#172033">No mask − ISO</text>
+</svg>

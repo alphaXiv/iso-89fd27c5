@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="500" viewBox="0 0 920 500">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="48" y="48" font-family="Inter,Arial,sans-serif" font-size="24" font-weight="700" fill="#172033">Specialist-gain retention</text>
+<text x="48" y="76" font-family="Inter,Arial,sans-serif" font-size="14" fill="#64748b">Mean of per-task (merged − base) / (specialist − base), five seeds</text>
+<line x1="90" y1="410.0" x2="875" y2="410.0" stroke="#dbe4ee"/>
+<text x="80.0" y="414.0" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#64748b">0.0</text>
+<line x1="90" y1="335.0" x2="875" y2="335.0" stroke="#dbe4ee"/>
+<text x="80.0" y="339.0" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#64748b">0.2</text>
+<line x1="90" y1="260.0" x2="875" y2="260.0" stroke="#dbe4ee"/>
+<text x="80.0" y="264.0" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#64748b">0.4</text>
+<line x1="90" y1="185.0" x2="875" y2="185.0" stroke="#dbe4ee"/>
+<text x="80.0" y="189.0" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#64748b">0.6</text>
+<line x1="90" y1="110.0" x2="875" y2="110.0" stroke="#dbe4ee"/>
+<text x="80.0" y="114.0" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#64748b">0.8</text>
+<rect x="112" y="240.8" width="105" height="169.2" rx="5" fill="#0891b2"/>
+<text x="164.5" y="230.8" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="14" font-weight="700" fill="#172033">45.1%</text>
+<text x="164.5" y="435.0" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#172033">Average</text>
+<rect x="262" y="185.7" width="105" height="224.3" rx="5" fill="#2563eb"/>
+<text x="314.5" y="175.7" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="14" font-weight="700" fill="#172033">59.8%</text>
+<text x="314.5" y="435.0" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#172033">ISO</text>
+<rect x="412" y="183.9" width="105" height="226.1" rx="5" fill="#059669"/>
+<text x="464.5" y="173.9" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="14" font-weight="700" fill="#172033">60.3%</text>
+<text x="464.5" y="435.0" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#172033">No restoration</text>
+<rect x="562" y="179.5" width="105" height="230.5" rx="5" fill="#dc2626"/>
+<text x="614.5" y="169.5" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="14" font-weight="700" fill="#172033">61.5%</text>
+<text x="614.5" y="435.0" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#172033">No mask</text>
+<rect x="712" y="167.4" width="105" height="242.6" rx="5" fill="#d97706"/>
+<text x="764.5" y="157.4" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="14" font-weight="700" fill="#172033">64.7%</text>
+<text x="764.5" y="435.0" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="400" fill="#172033">Task Arithmetic</text>
+<text x="48.0" y="478.0" text-anchor="start" font-family="Inter,Arial,sans-serif" font-size="14" font-weight="400" fill="#64748b">The two ablations increased, rather than decreased, retained gain in this bounded setup.</text>
+</svg>
