@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520" role="img" aria-labelledby="title desc">
+  <title id="title">Ablation accuracy differences relative to full ISO</title>
+  <desc id="desc">No-mask and no-restoration ablations were slightly positive on all five seeds.</desc>
+  <rect width="900" height="520" fill="#ffffff"/>
+  <text x="58" y="48" font-family="Inter,Arial,sans-serif" font-size="25" font-weight="700" fill="#172033">The proposed mechanism ablations did not hurt</text>
+  <text x="58" y="76" font-family="Inter,Arial,sans-serif" font-size="14" fill="#5c667a">Change in balanced accuracy relative to full ISO; positive means the ablation scored higher</text>
+  <g stroke="#dfe4ec"><line x1="100" x2="850" y1="450" y2="450"/><line x1="100" x2="850" y1="350" y2="350"/><line x1="100" x2="850" y1="250" y2="250"/><line x1="100" x2="850" y1="150" y2="150"/></g>
+  <g font-family="Inter,Arial,sans-serif" font-size="13" fill="#687386" text-anchor="end"><text x="92" y="455">0.0 pp</text><text x="92" y="355">+0.1 pp</text><text x="92" y="255">+0.2 pp</text><text x="92" y="155">+0.3 pp</text></g>
+  <g fill="#8eb9ec"><rect x="140" y="423" width="42" height="27"/><rect x="280" y="441" width="42" height="9"/><rect x="420" y="356" width="42" height="94"/><rect x="560" y="280" width="42" height="170"/><rect x="700" y="393" width="42" height="57"/></g>
+  <g fill="#2575d8"><rect x="187" y="267" width="42" height="183"/><rect x="327" y="205" width="42" height="245"/><rect x="467" y="200" width="42" height="250"/><rect x="607" y="141" width="42" height="309"/><rect x="747" y="361" width="42" height="89"/></g>
+  <g font-family="Inter,Arial,sans-serif" font-size="14" fill="#344054" text-anchor="middle"><text x="184" y="482">seed 11</text><text x="324" y="482">seed 22</text><text x="464" y="482">seed 33</text><text x="604" y="482">seed 44</text><text x="744" y="482">seed 55</text></g>
+  <rect x="555" y="94" width="16" height="16" fill="#8eb9ec"/><text x="580" y="107" font-family="Inter,Arial,sans-serif" font-size="13" fill="#344054">mean expert spectrum (no restoration)</text>
+  <rect x="555" y="119" width="16" height="16" fill="#2575d8"/><text x="580" y="132" font-family="Inter,Arial,sans-serif" font-size="13" fill="#344054">keep all modes (no 0.9 mask)</text>
+  <text x="660" y="176" font-family="Inter,Arial,sans-serif" font-size="13" font-weight="700" fill="#185ba9">Mean: +0.22 pp</text>
+  <text x="660" y="198" font-family="Inter,Arial,sans-serif" font-size="13" font-weight="700" fill="#587fae">Mean: +0.07 pp</text>
+</svg>

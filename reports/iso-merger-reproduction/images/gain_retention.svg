@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520" role="img" aria-labelledby="title desc">
+  <title id="title">Mean specialist-gain retention across five seeds</title>
+  <desc id="desc">Task Arithmetic retains 64.68 percent, ISO-Merger 59.83 percent, and averaging 45.12 percent of specialist gains.</desc>
+  <rect width="900" height="520" fill="#ffffff"/>
+  <text x="58" y="48" font-family="Inter,Arial,sans-serif" font-size="25" font-weight="700" fill="#172033">How much specialist improvement survived?</text>
+  <text x="58" y="76" font-family="Inter,Arial,sans-serif" font-size="14" fill="#5c667a">Per task: (merged − base) / (specialist − base), averaged across both tasks and 5 seeds</text>
+  <g stroke="#dfe4ec"><line x1="100" x2="850" y1="440" y2="440"/><line x1="100" x2="850" y1="340" y2="340"/><line x1="100" x2="850" y1="240" y2="240"/><line x1="100" x2="850" y1="140" y2="140"/></g>
+  <g font-family="Inter,Arial,sans-serif" font-size="13" fill="#687386" text-anchor="end">
+    <text x="92" y="445">40%</text><text x="92" y="345">50%</text><text x="92" y="245">60%</text><text x="92" y="145">70%</text>
+  </g>
+  <rect x="180" y="389" width="150" height="51" rx="5" fill="#8b95a7"/>
+  <rect x="390" y="242" width="150" height="198" rx="5" fill="#2575d8"/>
+  <rect x="600" y="193" width="150" height="247" rx="5" fill="#e58a2b"/>
+  <g stroke="#172033" stroke-width="2">
+    <line x1="255" x2="255" y1="364" y2="414"/><line x1="242" x2="268" y1="364" y2="364"/><line x1="242" x2="268" y1="414" y2="414"/>
+    <line x1="465" x2="465" y1="222" y2="262"/><line x1="452" x2="478" y1="222" y2="222"/><line x1="452" x2="478" y1="262" y2="262"/>
+    <line x1="675" x2="675" y1="164" y2="222"/><line x1="662" x2="688" y1="164" y2="164"/><line x1="662" x2="688" y1="222" y2="222"/>
+  </g>
+  <g font-family="Inter,Arial,sans-serif" font-size="19" font-weight="700" text-anchor="middle" fill="#172033">
+    <text x="255" y="350">45.12%</text><text x="465" y="207">59.83%</text><text x="675" y="149">64.68%</text>
+  </g>
+  <g font-family="Inter,Arial,sans-serif" font-size="15" text-anchor="middle" fill="#344054">
+    <text x="255" y="478">Weight average</text><text x="465" y="478">ISO-Merger</text><text x="675" y="478">Task Arithmetic</text>
+  </g>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540" role="img" aria-labelledby="title desc">
+  <title id="title">Worst spectrum error for every seed</title>
+  <desc id="desc">Float64 errors are around 1e-13 and float32 checkpoint errors around 1e-8, both below preregistered tolerances.</desc>
+  <rect width="900" height="540" fill="#ffffff"/>
+  <text x="58" y="46" font-family="Inter,Arial,sans-serif" font-size="25" font-weight="700" fill="#172033">Every ISO matrix kept the base spectrum</text>
+  <text x="58" y="74" font-family="Inter,Arial,sans-serif" font-size="14" fill="#5c667a">Worst relative singular-value error among 17 two-dimensional parameters; logarithmic scale</text>
+  <g stroke="#dfe4ec"><line x1="110" x2="850" y1="100" y2="100"/><line x1="110" x2="850" y1="180" y2="180"/><line x1="110" x2="850" y1="260" y2="260"/><line x1="110" x2="850" y1="340" y2="340"/><line x1="110" x2="850" y1="420" y2="420"/><line x1="110" x2="850" y1="500" y2="500"/></g>
+  <g font-family="ui-monospace,monospace" font-size="13" fill="#687386" text-anchor="end">
+    <text x="100" y="105">10⁻⁴</text><text x="100" y="185">10⁻⁶</text><text x="100" y="265">10⁻⁸</text><text x="100" y="345">10⁻¹⁰</text><text x="100" y="425">10⁻¹²</text><text x="100" y="505">10⁻¹⁴</text>
+  </g>
+  <line x1="110" x2="850" y1="140" y2="140" stroke="#e58a2b" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="840" y="132" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" fill="#b45b00">float32 tolerance 10⁻⁵</text>
+  <line x1="110" x2="850" y1="340" y2="340" stroke="#2575d8" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="840" y="332" text-anchor="end" font-family="Inter,Arial,sans-serif" font-size="12" fill="#185ba9">float64 tolerance 10⁻¹⁰</text>
+  <polyline points="180,258 320,270 460,256 600,270 740,252" fill="none" stroke="#e58a2b" stroke-width="3"/>
+  <polyline points="180,460 320,465 460,462 600,461 740,459" fill="none" stroke="#2575d8" stroke-width="3"/>
+  <g fill="#e58a2b"><circle cx="180" cy="258" r="6"/><circle cx="320" cy="270" r="6"/><circle cx="460" cy="256" r="6"/><circle cx="600" cy="270" r="6"/><circle cx="740" cy="252" r="6"/></g>
+  <g fill="#2575d8"><circle cx="180" cy="460" r="6"/><circle cx="320" cy="465" r="6"/><circle cx="460" cy="462" r="6"/><circle cx="600" cy="461" r="6"/><circle cx="740" cy="459" r="6"/></g>
+  <g font-family="Inter,Arial,sans-serif" font-size="14" fill="#344054" text-anchor="middle"><text x="180" y="525">seed 11</text><text x="320" y="525">seed 22</text><text x="460" y="525">seed 33</text><text x="600" y="525">seed 44</text><text x="740" y="525">seed 55</text></g>
+  <rect x="130" y="92" width="13" height="13" rx="6" fill="#e58a2b"/><text x="151" y="104" font-family="Inter,Arial,sans-serif" font-size="13" fill="#344054">float32 checkpoint</text>
+  <rect x="284" y="92" width="13" height="13" rx="6" fill="#2575d8"/><text x="305" y="104" font-family="Inter,Arial,sans-serif" font-size="13" fill="#344054">float64 reconstruction</text>
+</svg>
