@@ -10,6 +10,7 @@ from datasets import load_dataset
 from transformers import (
     AutoModelForSequenceClassification,
     AutoTokenizer,
+    DataCollatorWithPadding,
     Trainer,
     TrainingArguments,
     set_seed,
@@ -77,7 +78,12 @@ def main() -> None:
         f"world_size={train_args.world_size}",
         flush=True,
     )
-    trainer = Trainer(model=model, args=train_args, train_dataset=train_ds)
+    trainer = Trainer(
+        model=model,
+        args=train_args,
+        train_dataset=train_ds,
+        data_collator=DataCollatorWithPadding(tokenizer),
+    )
     result = trainer.train()
     trainer.save_model(args.output)
     if trainer.is_world_process_zero():
