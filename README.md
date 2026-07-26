@@ -1,52 +1,32 @@
-# ISO-Merger reproduction
+# Reproduction: ISO-Merger spectrum and skill retention
 
 [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/alphaXiv/iso-89fd27c5/blob/main/notebooks/iso_merger_reproduction.py)
 
-This public recovery run tests the claim in [ISO: An RLVR-Native Optimization
-Stack (arXiv:2607.19331)](https://arxiv.org/abs/2607.19331) that shared-base
-specialists can be composed in singular-frame space while preserving every
-two-dimensional base spectrum and retaining complementary behavior at least as
-well as standard data-free merges.
+We tested the paper’s claim that fixed-spectrum frame merging preserves a shared base model’s singular spectra while retaining two complementary specialists at least as well as standard data-free merges. Five independent full-parameter specialist pairs were trained from one public BERT-tiny base on GLUE SST-2 and QNLI, then merged with released ISO-Merger, Task Arithmetic, uniform averaging, no-spectrum-restoration, and no-mask variants.
 
-**Assessment: partially reproduced.** Across five fresh seeds, ISO preserved all
-17 matrix spectra per model (worst relative error `1.04e-13` in float64 and
-`1.61e-8` after float32 casting) and beat uniform weight averaging on balanced
-held-out accuracy, `62.03%` versus `60.59%`. It trailed matched Task Arithmetic
-at `62.83%`, and the no-restoration (`62.11%`) and no-mask (`62.25%`) ablations
-slightly exceeded full ISO. The paper's corresponding 1.5B two-expert result was
-`44.38` for ISO versus `43.52` for its strongest baseline; those absolute
-numbers are not directly comparable to these classification accuracies.
+**Assessment: partially reproduced.** ISO preserved all 85 matrix spectra (worst relative error **1.04×10⁻¹³** in float64; **1.61×10⁻⁸** after float32 casting) and beat averaging on every seed. It did not match Task Arithmetic: balanced accuracy was **62.03% ISO vs 62.83% Task Arithmetic** (−0.80 points) and 60.59% for averaging. The paper’s comparable two-expert headline was **44.38 ISO vs 43.52 best baseline** (+0.86 points). Both ablations were slightly better than full ISO here.
 
-The bounded substitution uses one exactly shared 4.4M-parameter
-`google/bert_uncased_L-2_H-128_A-2` binary classifier, then matched 160-step
-full-weight specialists on public GLUE SST-2 and QNLI data. This is a controlled
-test of the released ISO-Merger, not a substitute for the paper's 1.5B/7B
-generative RLVR checkpoints or unreleased ISO-Optimizer.
+This is a declared scale and training substitution: a 4.4M-parameter supervised classifier replaces the paper’s unavailable 1.5B/7B generative RLVR specialists. It tests the released merger’s exact mechanism and bounded functional behavior, not the paper’s absolute benchmark numbers or unreleased ISO-Optimizer.
 
-- [Detailed illustrated report](reports/iso-merger-reproduction/report.md)
+- [Illustrated report](reports/iso-merger-reproduction/report.md)
 - [Self-contained marimo walkthrough](notebooks/iso_merger_reproduction.py)
-- [Five-seed measurement table](results/seed_summary.csv)
+- [Frozen five-seed summary](results/summary.json)
 - [Preregistered protocol](PROTOCOL.md)
 
-All evidence ran through OpenResearch **Kubernetes** on **NVIDIA RTX PRO 6000
-Blackwell** GPUs. Peak concurrent allocation was **16 GPUs**; successful jobs
-used four GPUs each and took 68–83 seconds, while the fresh
-launch-to-final-evidence campaign elapsed **0.10 wall hours**.
+Compute: OpenResearch Kubernetes, NVIDIA RTX PRO 6000 Blackwell, four GPUs per run, **16 GPUs peak concurrent**, **0.12 elapsed wall hours** for the fresh recovery attempt.
 
 ## Experiment log
 
-The command column is copied verbatim from `orx exp status`. `main` is the
-publication surface and was not launched as an experiment.
-
 | Branch / experiment | Purpose or change | Exact run command | Assessment / outcome | Compute |
 |---|---|---|---|---|
-| `main` | Public README, report, figures, notebook, and metadata | Not run as an experiment (publication surface) | Presentation-only | — |
-| [`recovery-baseline-seed-11`](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/recovery-baseline-seed-11) | Initial recovery baseline; exposed manifest shell parsing issue | `bash run_reproduction.sh` | Failed before clone; no scientific evidence | Kubernetes, 4 GPUs, 5 s |
-| [`padding-fixed-seed-11`](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/padding-fixed-seed-11) | Corrected script evaluation and dynamic padding; seed 11 | `bash run_reproduction.sh` | ISO 62.62%, TA 63.51%, average 60.99%; spectrum aligned | Kubernetes, 4 GPUs, 68 s |
-| [`padding-fixed-seed-22`](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/padding-fixed-seed-22) | Independent specialist/data seed 22 | `bash run_reproduction.sh` | ISO 62.34%, TA 62.84%, average 61.23%; spectrum aligned | Kubernetes, 4 GPUs, 73 s |
-| [`padding-fixed-seed-33`](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/padding-fixed-seed-33) | Independent specialist/data seed 33 | `bash run_reproduction.sh` | ISO 62.14%, TA 63.36%, average 60.79%; spectrum aligned | Kubernetes, 4 GPUs, 68 s |
-| [`repaired-independent-seed-44`](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/repaired-independent-seed-44) | Independent specialist/data seed 44 | `bash run_reproduction.sh` | ISO 61.88%, TA 62.67%, average 60.18%; spectrum aligned | Kubernetes, 4 GPUs, 68 s |
-| [`padding-fixed-seed-55`](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/padding-fixed-seed-55) | Independent specialist/data seed 55 | `bash run_reproduction.sh` | ISO 61.19%, TA 61.80%, average 59.74%; spectrum aligned | Kubernetes, 4 GPUs, 68 s |
+| `main` | Publication surface | Not run as an experiment (publication surface) | README, report, figures, notebook, and metadata | — |
+| [`orx/recovery-baseline-seed-11`](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/recovery-baseline-seed-11) | Initial recovery baseline | `bash run_reproduction.sh` | Pre-clone shell-evaluation failure; no evidence | Kubernetes, 4× RTX PRO 6000 Blackwell |
+| [`orx/k8s-script-evaluation-fix-seed-11`](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/k8s-script-evaluation-fix-seed-11) | Evaluate injected Kubernetes script; exposed missing dynamic padding | `bash run_reproduction.sh` | Training setup failure; no evidence | Kubernetes, 4× RTX PRO 6000 Blackwell |
+| [`orx/repaired-independent-seed-44`](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/repaired-independent-seed-44) | Validated shell + padding fixes, seed 44 | `bash run_reproduction.sh` | Successful; ISO 61.88%, TA 62.67%, average 60.18% | Kubernetes, 4× RTX PRO 6000 Blackwell, 68 s |
+| [`orx/padding-fixed-seed-11`](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/padding-fixed-seed-11) | Independent seed 11 | `bash run_reproduction.sh` | Successful; ISO 62.62%, TA 63.51%, average 60.99% | Kubernetes, 4× RTX PRO 6000 Blackwell, 68 s |
+| [`orx/padding-fixed-seed-22`](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/padding-fixed-seed-22) | Independent seed 22 | `bash run_reproduction.sh` | Successful; ISO 62.34%, TA 62.84%, average 61.23% | Kubernetes, 4× RTX PRO 6000 Blackwell, 73 s |
+| [`orx/padding-fixed-seed-33`](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/padding-fixed-seed-33) | Independent seed 33 | `bash run_reproduction.sh` | Successful; ISO 62.14%, TA 63.36%, average 60.79% | Kubernetes, 4× RTX PRO 6000 Blackwell, 68 s |
+| [`orx/padding-fixed-seed-55`](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/padding-fixed-seed-55) | Independent robustness seed 55 | `bash run_reproduction.sh` | Successful; ISO 61.19%, TA 61.80%, average 59.74% | Kubernetes, 4× RTX PRO 6000 Blackwell, 68 s |
 
 ---
 

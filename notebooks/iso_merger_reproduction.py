@@ -7,170 +7,111 @@ app = marimo.App(width="medium")
 @app.cell
 def _():
     import marimo as mo
-    import statistics
 
-    return mo, statistics
+    return (mo,)
 
 
 @app.cell
 def _(mo):
     mo.md(r"""
-    # ISO-Merger: exact spectra, mixed functional retention
+    # ISO-Merger: exact spectra, mixed functional evidence
 
-    When specialists learn different skills from one base model, a merge can
-    erase their gains. ISO-Merger proposes combining changes to the singular
-    directions of each weight matrix while restoring the base singular
-    values. This notebook embeds the fresh five-seed Kubernetes evidence, so
-    opening it never requires rerunning training.
+    Specialists are useful only if we can combine them without erasing what
+    each learned. ISO-Merger tries to do this by moving a model's singular
+    directions while restoring the shared base model's singular values.
 
-    **Verdict: partially reproduced.** Spectrum preservation was exact within
-    tolerance and ISO beat uniform averaging, but Task Arithmetic was better
-    on the held-out mixed score. Removing restoration or the trailing-mode
-    mask was also slightly beneficial.
+    **Verdict: partially reproduced.** Every tested matrix preserved its base
+    spectrum, and ISO beat checkpoint averaging, but Task Arithmetic beat ISO
+    on all five seeds. The two mechanism ablations were also slightly better
+    than full ISO in this bounded public-task substitution.
     """)
     return
 
 
 @app.cell
 def _():
-    rows = [
-        {"seed": 11, "base": 0.5455445, "average": 0.6099168, "iso": 0.6262027, "task_arithmetic": 0.6350728, "no_restore": 0.6264773, "no_mask": 0.6280332, "ret_average": 0.4836773, "ret_iso": 0.6316024, "ret_task_arithmetic": 0.6878808, "spectrum64": 9.8029e-14, "spectrum32": 1.1548e-8},
-        {"seed": 22, "base": 0.5455445, "average": 0.6122885, "iso": 0.6234140, "task_arithmetic": 0.6283672, "no_restore": 0.6235055, "no_mask": 0.6258663, "ret_average": 0.4690296, "ret_iso": 0.5838855, "ret_task_arithmetic": 0.6113199, "spectrum64": 7.6933e-14, "spectrum32": 5.4589e-9},
-        {"seed": 33, "base": 0.5455445, "average": 0.6078844, "iso": 0.6214137, "task_arithmetic": 0.6335599, "no_restore": 0.6223532, "no_mask": 0.6239092, "ret_average": 0.4462943, "ret_iso": 0.5825941, "ret_task_arithmetic": 0.6586829, "spectrum64": 8.9069e-14, "spectrum32": 1.2840e-8},
-        {"seed": 44, "base": 0.5455445, "average": 0.6017656, "iso": 0.6188213, "task_arithmetic": 0.6266604, "no_restore": 0.6205173, "no_mask": 0.6219144, "ret_average": 0.4216178, "ret_iso": 0.5963082, "ret_task_arithmetic": 0.6434775, "spectrum64": 9.7215e-14, "spectrum32": 5.7710e-9},
-        {"seed": 55, "base": 0.5455445, "average": 0.5974233, "iso": 0.6118921, "task_arithmetic": 0.6179679, "no_restore": 0.6124655, "no_mask": 0.6127831, "ret_average": 0.4352234, "ret_iso": 0.5969072, "ret_task_arithmetic": 0.6327710, "spectrum64": 1.0412e-13, "spectrum32": 1.6112e-8},
-    ]
-    labels = {
-        "base": "Shared base",
-        "average": "Weight average",
-        "iso": "ISO-Merger",
-        "task_arithmetic": "Task Arithmetic",
-        "no_restore": "ISO: no restoration",
-        "no_mask": "ISO: no mask",
+    data = {
+        "seeds": [11, 22, 33, 44, 55],
+        "base": [0.545545] * 5,
+        "average": [0.609917, 0.612289, 0.607884, 0.601766, 0.597423],
+        "iso": [0.626203, 0.623414, 0.621414, 0.618821, 0.611892],
+        "task_arithmetic": [0.635073, 0.628367, 0.633560, 0.626660, 0.617968],
+        "iso_no_restore": [0.626477, 0.623505, 0.622353, 0.620517, 0.612466],
+        "iso_no_mask": [0.628033, 0.625866, 0.623909, 0.621914, 0.612783],
+        "retention": {
+            "Average": 0.451168,
+            "ISO": 0.598259,
+            "No restoration": 0.602815,
+            "No mask": 0.614588,
+            "Task Arithmetic": 0.646826,
+        },
+        "max_float64_error": 1.0412276856883838e-13,
+        "max_float32_error": 1.6112400726146944e-08,
+        "no_restore_drift": 1.1544127995306848e-03,
     }
-    return labels, rows
+    return (data,)
 
 
-@app.function
-def bar_chart_svg(items, lower, upper):
-    colors = ["#c8cfda", "#8b95a7", "#2575d8", "#e58a2b", "#73a6df", "#1e5da8"]
-    width, height = 780, 390
-    baseline, top = 315, 65
-    gap = 650 / len(items)
+@app.cell
+def _(data, mo):
+    colors = {
+        "Base": "#172554",
+        "Average": "#0891b2",
+        "ISO": "#2563eb",
+        "Task Arithmetic": "#d97706",
+    }
+    means = {
+        "Base": sum(data["base"]) / 5,
+        "Average": sum(data["average"]) / 5,
+        "ISO": sum(data["iso"]) / 5,
+        "Task Arithmetic": sum(data["task_arithmetic"]) / 5,
+    }
     bars = []
-    for index, (name, value) in enumerate(items):
-        x = 92 + index * gap
-        y = baseline - (value - lower) / (upper - lower) * (baseline - top)
+    for _i, (name, value) in enumerate(means.items()):
+        height = (value - 0.52) / 0.13 * 240
+        x = 70 + _i * 145
         bars.append(
-            f'<rect x="{x:.1f}" y="{y:.1f}" width="{gap * 0.62:.1f}" '
-            f'height="{baseline-y:.1f}" rx="4" fill="{colors[index]}"/>'
-            f'<text x="{x + gap * 0.31:.1f}" y="{y-10:.1f}" '
-            'text-anchor="middle" font-family="sans-serif" font-size="15" '
-            f'font-weight="700">{value*100:.2f}%</text>'
-            f'<text x="{x + gap * 0.31:.1f}" y="345" text-anchor="middle" '
+            f'<rect x="{x}" y="{330-height:.1f}" width="95" height="{height:.1f}" '
+            f'rx="5" fill="{colors[name]}"/>'
+            f'<text x="{x+47}" y="{315-height:.1f}" text-anchor="middle" '
+            f'font-family="sans-serif" font-size="14" font-weight="700">{100*value:.2f}%</text>'
+            f'<text x="{x+47}" y="355" text-anchor="middle" '
             f'font-family="sans-serif" font-size="12">{name}</text>'
         )
-    return (
-        f'<svg viewBox="0 0 {width} {height}" width="100%" '
-        'xmlns="http://www.w3.org/2000/svg">'
-        '<rect width="100%" height="100%" fill="white"/>'
-        '<line x1="75" x2="750" y1="315" y2="315" stroke="#ccd3dd"/>'
+    chart = (
+        '<svg viewBox="0 0 680 390" style="width:100%;background:white">'
+        '<text x="28" y="35" font-family="sans-serif" font-size="22" font-weight="700">'
+        'Balanced held-out accuracy</text>'
+        '<text x="28" y="60" font-family="sans-serif" font-size="13" fill="#64748b">'
+        'Mean over five independent training seeds; higher is better</text>'
+        '<line x1="45" y1="330" x2="650" y2="330" stroke="#94a3b8"/>'
         + "".join(bars)
         + "</svg>"
     )
-
-
-@app.cell
-def _(labels, mo, rows, statistics):
-    headline_keys = ["base", "average", "iso", "task_arithmetic"]
-    headline_items = [
-        (labels[key], statistics.mean(row[key] for row in rows))
-        for key in headline_keys
-    ]
-    mo.vstack(
-        [
-            mo.md("## Primary result: balanced held-out accuracy"),
-            mo.Html(bar_chart_svg(headline_items, 0.54, 0.64)),
-            mo.md(
-                r"""
-                ISO gained **1.45 percentage points** over uniform averaging.
-                Task Arithmetic was **0.80 points above ISO**, and this ordering
-                held on every independent seed.
-                """
-            ),
-        ]
-    )
+    mo.Html(chart)
     return
 
 
 @app.cell
-def _(mo, rows, statistics):
-    summary = []
-    for key, label in [
-        ("average", "Weight average"),
-        ("iso", "ISO-Merger"),
-        ("task_arithmetic", "Task Arithmetic"),
-        ("no_restore", "ISO: no restoration"),
-        ("no_mask", "ISO: no mask"),
-    ]:
-        _values = [row[key] for row in rows]
-        summary.append(
-            {
-                "method": label,
-                "mixed accuracy": f"{statistics.mean(_values):.4f}",
-                "sample SD": f"{statistics.stdev(_values):.4f}",
-            }
-        )
-    mo.vstack(
-        [
-            mo.md(
-                r"""
-                ## Why gain retention is stricter than accuracy
+def _(mo):
+    mo.md(r"""
+    The headline plot is the evidence to keep in mind: ISO gains 1.45
+    percentage points over a simple average, yet gives up 0.80 points to
+    Task Arithmetic. The ordering holds seed by seed.
 
-                For task \(t\), define retention as
-                \((score_{merge,t}-score_{base,t}) /
-                (score_{specialist,t}-score_{base,t})\).
-                It asks what fraction of each task's acquired improvement
-                survived, rather than rewarding capability already in the base.
-                Across tasks and seeds: averaging retained **45.12%**, ISO
-                **59.83%**, and Task Arithmetic **64.68%**.
-                """
-            ),
-            mo.ui.table(summary, selection=None),
-        ]
-    )
-    return
+    ## Experimental substitution
 
+    The paper used unavailable 1.5B/7B generative RL specialists. This
+    reproduction instead starts from one public 4.4M-parameter
+    `google/bert_uncased_L-2_H-128_A-2` checkpoint and trains matched
+    full-parameter specialists on two complementary public GLUE tasks:
+    SST-2 sentiment and QNLI entailment. Each specialist sees 4,096 examples
+    for 160 steps. Evaluation uses both full validation sets.
 
-@app.cell
-def _(mo, rows):
-    mechanism = [
-        {
-            "seed": row["seed"],
-            "no restoration − ISO (pp)": round((row["no_restore"] - row["iso"]) * 100, 4),
-            "no mask − ISO (pp)": round((row["no_mask"] - row["iso"]) * 100, 4),
-            "worst float64 spectrum error": f"{row['spectrum64']:.2e}",
-            "worst float32 spectrum error": f"{row['spectrum32']:.2e}",
-        }
-        for row in rows
-    ]
-    mo.vstack(
-        [
-            mo.md(
-                r"""
-                ## Mechanism diagnostics
-
-                All 85 matrix/seed checks passed the preregistered relative
-                tolerances: \(10^{-10}\) for float64 reconstruction and
-                \(10^{-5}\) after float32 casting. Yet both ablations were
-                positive on every seed. The mechanism was implemented and
-                changed spectra as intended, but its proposed functional benefit
-                was not isolated here.
-                """
-            ),
-            mo.ui.table(mechanism, selection=None),
-        ]
-    )
+    This substitution tests the released merger's mechanics and small-scale
+    functional behavior. It does not reproduce the paper's absolute scores
+    or its unreleased online optimizer.
+    """)
     return
 
 
@@ -179,60 +120,93 @@ def _(mo):
     metric = mo.ui.dropdown(
         options={
             "Balanced accuracy": "accuracy",
-            "Specialist-gain retention": "retention",
+            "Gain retention": "retention",
+            "Spectrum diagnostics": "spectrum",
         },
         value="accuracy",
-        label="Inspect each seed:",
+        label="Explore the evidence:",
     )
     metric
     return (metric,)
 
 
 @app.cell
-def _(labels, metric, mo, rows):
+def _(data, metric, mo):
     if metric.value == "accuracy":
-        keys = ["average", "iso", "task_arithmetic"]
-        table_rows = [
-            {
-                "seed": row["seed"],
-                **{labels[key]: f"{row[key] * 100:.2f}%" for key in keys},
-            }
-            for row in rows
+        rows = [
+            "| Seed | Average | ISO | Task Arithmetic |",
+            "|---:|---:|---:|---:|",
         ]
+        for _i, seed in enumerate(data["seeds"]):
+            rows.append(
+                f"| {seed} | {100*data['average'][_i]:.2f}% | "
+                f"{100*data['iso'][_i]:.2f}% | "
+                f"{100*data['task_arithmetic'][_i]:.2f}% |"
+            )
+        body = "\n".join(rows)
+    elif metric.value == "retention":
+        body = "\n".join(
+            ["| Method | Mean specialist-gain retention |", "|---|---:|"]
+            + [f"| {k} | {100*v:.1f}% |" for k, v in data["retention"].items()]
+        )
     else:
-        table_rows = [
-            {
-                "seed": row["seed"],
-                "Weight average": f"{row['ret_average'] * 100:.2f}%",
-                "ISO-Merger": f"{row['ret_iso'] * 100:.2f}%",
-                "Task Arithmetic": f"{row['ret_task_arithmetic'] * 100:.2f}%",
-            }
-            for row in rows
-        ]
-    mo.ui.table(table_rows, selection=None)
+        body = (
+            "| Diagnostic | Observed | Preregistered tolerance |\n"
+            "|---|---:|---:|\n"
+            f"| Worst float64 relative error | {data['max_float64_error']:.2e} | 1e-10 |\n"
+            f"| Worst float32-checkpoint error | {data['max_float32_error']:.2e} | 1e-5 |\n"
+            f"| No-restoration median drift | {data['no_restore_drift']:.2e} | — |"
+        )
+    mo.md(body)
     return
 
 
 @app.cell
 def _(mo):
-    mo.md("""
-    ## Boundaries and provenance
+    mo.md(r"""
+    ## How ISO was implemented
 
-    The public substitution is a 4.4M-parameter BERT binary classifier with
-    matched 160-step full-weight specialists on GLUE SST-2 and QNLI. It is
-    not a reproduction of the paper's 1.5B/7B RLVR benchmarks or its
-    unreleased online optimizer.
+    For every two-dimensional parameter, the code computes the base and
+    specialist SVDs in float64, aligns singular-vector signs, projects frame
+    changes onto the shared Stiefel tangent spaces, masks the trailing 10% of
+    modes, solves the paper's unit-retention Gram system, retracts the merged
+    frames, and reconstructs with the **base** singular values. One-dimensional
+    parameters use task-vector averaging.
 
-    All evidence came from fresh OpenResearch **Kubernetes** jobs on
-    **NVIDIA RTX PRO 6000 Blackwell** GPUs. Peak concurrency was **16 GPUs**;
-    the launch-to-final-evidence campaign took **0.10 wall hours**, and
-    successful four-GPU jobs took 68–83 seconds. Exact repeats of seeds
-    11/22/33/55 returned identical measurements.
+    Two controlled ablations change one choice each:
 
-    The implementation, detailed report, figures, compact CSV, and formal
-    verdict are all in the public
-    [alphaXiv/iso-89fd27c5](https://github.com/alphaXiv/iso-89fd27c5)
-    repository.
+    - **No restoration** uses the mean specialist spectrum with the same
+      merged frames.
+    - **No mask** retains all modes while still restoring the base spectrum.
+
+    The baselines are matched checkpoint-only operations. Task Arithmetic
+    uses λ=1; uniform averaging is equivalent to λ=0.5.
+
+    ## What the evidence says
+
+    - **Mechanistic claim: aligned.** All 85 matrix checks passed. Worst
+      relative error was `1.04e-13` in float64 and `1.61e-8` after float32
+      checkpoint casting.
+    - **Functional claim: partially aligned.** ISO beat averaging on every
+      seed, but Task Arithmetic beat ISO on every seed.
+    - **Ablation mechanism: not supported here.** No restoration and no mask
+      each produced small, consistent improvements over full ISO.
+
+    The likely boundary is the downscaling itself: small supervised
+    classifiers can have task-vector geometry unlike generative RLVR
+    specialists. A faithful full-scale reproduction still requires matched
+    RLVR coding/math checkpoints and generation benchmarks.
+
+    ## Compute and provenance
+
+    All formal evidence ran on OpenResearch Kubernetes using NVIDIA RTX PRO
+    6000 Blackwell GPUs: four GPUs per run, 16 peak concurrent, and 0.12
+    elapsed wall hours for the fresh attempt. Four exact reruns confirmed
+    deterministic reproduction of seeds 11, 22, 33, and 55.
+
+    Public paper: [arXiv 2607.19331](https://arxiv.org/abs/2607.19331) ·
+    [Detailed report](https://github.com/alphaXiv/iso-89fd27c5/blob/main/reports/iso-merger-reproduction/report.md) ·
+    [Frozen summary data](https://github.com/alphaXiv/iso-89fd27c5/blob/main/results/summary.json)
     """)
     return
 

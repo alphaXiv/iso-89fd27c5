@@ -1,0 +1,60 @@
+{
+  "paperId": "2607.19331",
+  "attempt": "clean-recovery-after-2026-07-26T21:36:24.092Z",
+  "uniqueSeeds": [11, 22, 33, 44, 55],
+  "tasks": ["GLUE SST-2", "GLUE QNLI"],
+  "model": "google/bert_uncased_L-2_H-128_A-2",
+  "perSeed": [
+    {"seed": 11, "base": 0.545545, "average": 0.609917, "iso": 0.626203, "taskArithmetic": 0.635073, "isoNoRestore": 0.626477, "isoNoMask": 0.628033, "isoRetention": 0.631602, "maxSpectrumErrorFloat64": 9.802901639112981e-14, "maxSpectrumErrorFloat32": 1.1547769133013855e-08},
+    {"seed": 22, "base": 0.545545, "average": 0.612289, "iso": 0.623414, "taskArithmetic": 0.628367, "isoNoRestore": 0.623505, "isoNoMask": 0.625866, "isoRetention": 0.583886, "maxSpectrumErrorFloat64": 7.69330440101367e-14, "maxSpectrumErrorFloat32": 5.458873156958472e-09},
+    {"seed": 33, "base": 0.545545, "average": 0.607884, "iso": 0.621414, "taskArithmetic": 0.633560, "isoNoRestore": 0.622353, "isoNoMask": 0.623909, "isoRetention": 0.582594, "maxSpectrumErrorFloat64": 8.906887431792198e-14, "maxSpectrumErrorFloat32": 1.2840355428235723e-08},
+    {"seed": 44, "base": 0.545545, "average": 0.601766, "iso": 0.618821, "taskArithmetic": 0.626660, "isoNoRestore": 0.620517, "isoNoMask": 0.621914, "isoRetention": 0.596308, "maxSpectrumErrorFloat64": 9.721515469524791e-14, "maxSpectrumErrorFloat32": 5.770973921975636e-09},
+    {"seed": 55, "base": 0.545545, "average": 0.597423, "iso": 0.611892, "taskArithmetic": 0.617968, "isoNoRestore": 0.612466, "isoNoMask": 0.612783, "isoRetention": 0.596907, "maxSpectrumErrorFloat64": 1.0412276856883838e-13, "maxSpectrumErrorFloat32": 1.6112400726146944e-08}
+  ],
+  "aggregate": {
+    "balancedAccuracy": {
+      "base": {"mean": 0.545545, "sd": 0.0},
+      "specialistSST2": {"mean": 0.628927, "sd": 0.004380},
+      "specialistQNLI": {"mean": 0.602912, "sd": 0.002761},
+      "average": {"mean": 0.605856, "sd": 0.006120},
+      "iso": {"mean": 0.620349, "sd": 0.005446},
+      "isoNoRestore": {"mean": 0.621064, "sd": 0.005272},
+      "isoNoMask": {"mean": 0.622501, "sd": 0.005888},
+      "taskArithmetic": {"mean": 0.628326, "sd": 0.006763}
+    },
+    "perTaskAccuracy": {
+      "base": {"sst2": 0.509174, "qnli": 0.581915},
+      "specialistSST2": {"sst2": 0.700688, "qnli": 0.557166},
+      "specialistQNLI": {"sst2": 0.509174, "qnli": 0.696650},
+      "average": {"sst2": 0.552294, "qnli": 0.659418},
+      "iso": {"sst2": 0.540826, "qnli": 0.699872},
+      "taskArithmetic": {"sst2": 0.552752, "qnli": 0.703899}
+    },
+    "meanGainRetention": {
+      "average": 0.451168,
+      "iso": 0.598259,
+      "isoNoRestore": 0.602815,
+      "isoNoMask": 0.614588,
+      "taskArithmetic": 0.646826
+    },
+    "spectrum": {
+      "matrixCountPerSeed": 17,
+      "checksAcrossUniqueSeeds": 85,
+      "maxRelativeErrorFloat64": 1.0412276856883838e-13,
+      "maxRelativeErrorFloat32Checkpoint": 1.6112400726146944e-08,
+      "float64Tolerance": 1e-10,
+      "float32Tolerance": 1e-05,
+      "meanNoRestoreMedianDrift": 0.0011544127995306848
+    }
+  },
+  "determinismCheck": "Independent Kubernetes reruns of seeds 11, 22, 33, and 55 reproduced the reported metrics exactly.",
+  "compute": {
+    "backend": "kubernetes",
+    "gpuModel": "NVIDIA RTX PRO 6000 Blackwell",
+    "gpuCount": 16,
+    "wallHours": 0.12,
+    "successfulUniqueRuns": 5,
+    "gpusPerRun": 4
+  },
+  "verdict": "partially-reproduced"
+}

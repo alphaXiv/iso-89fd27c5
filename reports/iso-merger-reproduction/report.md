@@ -1,66 +1,54 @@
-# Reproducing ISO-Merger: exact spectra, mixed functional retention
+# ISO-Merger: exact spectra, mixed functional evidence
 
-When several models learn different skills from the same starting point, combining them can erase some of what each learned. The ISO paper proposes merging changes to a matrix’s directions while restoring the original matrix scales, rather than simply adding changed weights. This reproduction asks whether that construction both preserves those scales exactly and retains two complementary public-task specialists better than standard data-free merges.
+Modern language models can be adapted into specialists, but combining those specialists often damages what each one learned. ISO-Merger proposes to combine changes in a model’s learned directions while restoring the original model’s numerical scales. This reproduction asks whether that construction both preserves those scales and retains two complementary public-task skills better than ordinary checkpoint merging.
 
-**Verdict: partially reproduced.** The released construction preserved the base singular spectrum of every two-dimensional parameter within numerical tolerance and outperformed uniform weight averaging. It did not match Task Arithmetic in this bounded setup, and removing either spectrum restoration or the trailing-mode mask slightly improved—not reduced—accuracy.
+**Verdict — partially reproduced.** The sharp mechanistic claim reproduced: all 85 matrix checks preserved the base singular spectrum far inside numerical tolerance. The functional claim did not fully reproduce under this small supervised substitution: ISO beat uniform averaging on all five seeds, but Task Arithmetic beat ISO on all five, and removing either claimed mechanism slightly improved accuracy.
 
-**Scope.** We substituted a 4.4M-parameter public BERT for the paper’s 1.5B/7B generative models and matched supervised GLUE specialists for its RLVR specialists. This tests the released merger mechanism, not the paper’s absolute benchmark scores or unreleased online optimizer.
+**Scope.** We replaced the paper’s unavailable 1.5B/7B RL specialists with matched full-parameter specialists from one 4.4M-parameter public BERT base, trained on GLUE SST-2 and QNLI. This tests the released merger, not the unreleased online ISO-Optimizer or the paper’s absolute benchmark scores.
 
-![Balanced held-out accuracy](images/headline_mixed_accuracy.svg)
+![Balanced held-out accuracy](images/primary_accuracy.svg)
 
-Higher is better. Each bar is the mean balanced validation accuracy across five independently trained specialist pairs; whiskers show sample standard deviation. ISO gained 1.45 percentage points over averaging, but Task Arithmetic remained 0.80 points ahead of ISO.
+Higher bars are better; whiskers show variation across five independent training seeds. ISO reached **62.03% ± 0.54%** balanced accuracy, above uniform averaging at **60.59% ± 0.61%**, but below Task Arithmetic at **62.83% ± 0.68%**.
 
 [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/alphaXiv/iso-89fd27c5/blob/main/notebooks/iso_merger_reproduction.py)
 
-## What the paper claims
+## What was tested
 
-ISO-Merger decomposes each shared-base matrix as \(W_0=U_0\Sigma_0V_0^\top\). It sign-aligns each specialist’s singular vectors, projects their frame changes into shared tangent spaces, masks the trailing 10% of modes, solves a small system for retention coefficients, retracts the combined frames to orthonormal factors, and reconstructs with \(\Sigma_0\). The paper reports 44.38 average performance for ISO versus 43.52 for its strongest baseline on its two-expert 1.5B setting.
+Both specialists began from the exact same `google/bert_uncased_L-2_H-128_A-2` checkpoint, including an identically initialized classification head. Each received 160 matched supervised steps over 4,096 examples. SST-2 sentiment and QNLI entailment are disjoint public task families with deterministic labels; evaluation used their full validation sets and the balanced mean as the primary mixed score.
 
-Two selected claims were testable from the release:
+For every two-dimensional parameter, the released path was followed in float64: SVD, sign alignment, tangent projection, 0.9 leading-mode mask, unit-retention coefficient solve, polar retraction, and reconstruction with the base spectrum. One-dimensional parameters used task-vector averaging. Baselines used the same checkpoints: Task Arithmetic added both full task vectors with λ=1, while uniform averaging used λ=0.5. The preregistration and exact implementation are in `PROTOCOL.md` and `reproduce.py`.
 
-| Claim | Paper evidence | Observed evidence | Assessment |
-|---|---:|---:|---|
-| Reconstructed 2D matrices retain the base spectrum | Exact by construction, up to precision | Worst relative error \(1.04\times10^{-13}\) in float64 and \(1.61\times10^{-8}\) after float32 casting, across 17 matrices × 5 seeds | **Aligned** |
-| ISO retains complementary gains at least as well as Task Arithmetic and averaging | ISO leads aggregate merging tables | Mixed accuracy: ISO 62.03%, Task Arithmetic 62.83%, averaging 60.59% | **Partially aligned** |
-| Restoration and the 0.9 mask isolate the benefit | Trailing modes described as unstable; base spectrum is central | No restoration: 62.11%; no mask: 62.25%; full ISO: 62.03% | **Not observed in this setup** |
-
-## Controlled public-task test
-
-We initialized one `google/bert_uncased_L-2_H-128_A-2` binary classifier and trained two full-weight specialists from that exact checkpoint: SST-2 sentiment and QNLI entailment. Each used 4,096 public training examples, 160 AdamW steps, the same batch size and learning rate, and disjoint task data. Their held-out accuracies rose from 50.92% to 70.07% on SST-2 and from 58.19% to 69.67% on QNLI, averaged over seeds, establishing real complementary gains before merging.
-
-The implementation keeps the release’s consequential path in float64:
-
-```python
-xi_u = project_tangent(u0, ue - u0)
-xi_v = project_tangent(v0, ve - v0)
-u_star = polar_columns(u0 + project_tangent(u0, sum_c_xi_u))
-w_star = (u_star * base_spectrum) @ v_star.T
-```
-
-The same checkpoints were merged five ways: released ISO at keep ratio 0.9, ISO without restoration (mean specialist spectra), ISO without masking, Task Arithmetic with \(\lambda=1\), and uniform weight averaging. No evaluation data tuned any merger.
+## Functional retention
 
 ![Specialist gain retention](images/gain_retention.svg)
 
-Gain retention normalizes each merged score by the corresponding specialist’s improvement over the base. ISO retained 59.83% on average, substantially above averaging’s 45.12%, but below Task Arithmetic’s 64.68%. The gap came from SST-2: ISO strongly preserved QNLI (mean 69.99%, slightly above its specialist) while retaining little of the sentiment gain.
+The specialists gained 19.15 points on SST-2 and 11.47 on QNLI over the shared base. ISO retained **59.8%** of those gains on average, versus **64.7%** for Task Arithmetic and **45.1%** for averaging. ISO’s outcome was asymmetric: it matched or exceeded the QNLI specialist on most seeds but retained little of the larger SST-2 gain.
 
-## Mechanism checks
+![Seed robustness](images/seed_robustness.svg)
 
-![Spectrum errors](images/spectrum_error.svg)
+The ordering was not driven by one unlucky run. Task Arithmetic exceeded ISO by 0.50–1.21 points on every seed; ISO exceeded averaging by 1.11–1.71 points. Independent Kubernetes reruns of seeds 11, 22, 33, and 55 reproduced the metrics exactly.
 
-Every seed passed the preregistered \(10^{-10}\) float64 and \(10^{-5}\) float32 relative-error thresholds. The no-restoration control moved the median matrix spectrum by roughly \(1.15\times10^{-3}\) relative to the largest singular value, so the intervention measurably changed the intended mechanism.
+## The spectrum claim
 
-![Ablation differences](images/ablation_deltas.svg)
+![Spectrum error](images/spectrum_error.svg)
 
-Despite that spectral change, the no-restoration variant exceeded full ISO by 0.07 percentage points on average. Keeping all singular modes exceeded it by 0.22 points. Both directions were positive on all five seeds, so these ablations do not isolate a functional benefit from restoration or masking here. The differences are small, but their consistency argues against claiming the paper’s mechanism was functionally reproduced at this scale.
+This is the clearest reproduction. Across 17 matrices and five seeds, the worst relative singular-value error was **1.04×10⁻¹³** in float64 and **1.61×10⁻⁸** after float32 checkpoint casting, comfortably inside the preregistered 10⁻¹⁰ and 10⁻⁵ thresholds. Reconstructing with the mean expert spectrum instead produced median per-seed drift of **1.15×10⁻³**, confirming that restoration—not an insensitive test—caused the exact preservation.
 
-## Interpretation and limits
+## Mechanism ablations
 
-The algebraic claim is sharp and survives the substitution: polar-retracted frames reconstructed with the base singular values do retain those values, including after checkpoint casting by a wide margin. The stronger behavioral claim is setup-dependent. These specialists came from short supervised classification updates, not reward-driven generative training; their task vectors interfered asymmetrically, and the tiny model has only 17 two-dimensional parameters. The result therefore says this run did not show ISO’s advantage over Task Arithmetic, not that the paper’s larger RLVR result is incorrect.
+![Ablation deltas](images/ablation_deltas.svg)
 
-A paper-matched reproduction still needs the authors’ 1.5B coding/math or 7B coding/tool/memory checkpoints, their stochastic generation protocols, and the unreleased ISO-Optimizer code for online speedup claims.
+The ablations did not isolate a functional benefit here. Removing spectrum restoration raised balanced accuracy by 0.01–0.17 points; retaining all trailing modes raised it by 0.09–0.31 points. These changes are small, but their direction is consistent across seeds and opposite the paper’s stated motivation for the 0.9 mask.
 
-## Compute and provenance
+## Claim ledger and interpretation
 
-All evidence came from fresh OpenResearch Kubernetes runs after the recovery cutoff, on **NVIDIA RTX PRO 6000 Blackwell** GPUs. Peak concurrent allocation was **16 GPUs**; successful jobs used four GPUs each and took 68–83 seconds, while the fresh launch-to-final-evidence campaign elapsed **0.10 wall hours**. Seeds 11, 22, 33, and 55 were repeated exactly and produced identical scores.
+| Claim | Paper evidence | Observed evidence | Assessment |
+|---|---:|---:|---|
+| ISO output retains every base matrix spectrum | Fixed by construction, up to numerical precision | 85/85 checks passed; worst float64 error 1.04×10⁻¹³ | **Aligned** |
+| ISO retains complementary specialists at least as well as data-free baselines | Two-expert aggregate 44.38 vs 43.52 best baseline | ISO 62.03%, Task Arithmetic 62.83%, average 60.59% | **Partially aligned** |
+| Restoration and 0.9 masking explain the benefit | Trailing modes reported unstable; base spectrum reused | Both ablations were slightly better on all five seeds | **Not supported in this setup** |
+| ISO-Optimizer accelerates online RLVR | 2.2–2.7× fewer updates in selected settings | Not attempted; code was not released | **Unattempted** |
 
-Important branches: [seed 11](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/padding-fixed-seed-11), [seed 22](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/padding-fixed-seed-22), [seed 33](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/padding-fixed-seed-33), [seed 44](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/repaired-independent-seed-44), and [seed 55](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/padding-fixed-seed-55). The compact measurements are in [`results/seed_summary.csv`](../../results/seed_summary.csv); the notebook contains the self-contained evidence and calculations.
+The result supports the algebraic guarantee and shows a real improvement over weight averaging, but not ISO’s stronger functional comparison. The most important limitation is the substitution: small supervised classifiers may produce task vectors with different geometry from generative RLVR specialists. A full-scale reproduction still needs the paper-matched checkpoints or newly trained RLVR coding/math experts and their generation benchmarks.
+
+All evidence came from OpenResearch Kubernetes on **NVIDIA RTX PRO 6000 Blackwell** GPUs, with **16 GPUs peak concurrent**, four per run. The fresh attempt used **0.12 elapsed wall hours** from first launch through the final terminal evidence; successful scientific phases took 18.9–19.6 seconds each, while end-to-end Kubernetes runs took 68–73 seconds. Key successful branches: [seed 44](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/repaired-independent-seed-44), [seed 11](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/padding-fixed-seed-11), [seed 22](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/padding-fixed-seed-22), [seed 33](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/padding-fixed-seed-33), and [seed 55](https://github.com/alphaXiv/iso-89fd27c5/tree/orx/padding-fixed-seed-55).
