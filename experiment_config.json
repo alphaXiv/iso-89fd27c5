@@ -1,0 +1,13 @@
+{
+  "seed": 11,
+  "model": "google/bert_uncased_L-2_H-128_A-2",
+  "train_examples_per_task": 4096,
+  "max_steps": 160,
+  "learning_rate": 5e-05,
+  "train_batch_per_gpu": 64,
+  "eval_batch": 256,
+  "max_length": 128,
+  "task_arithmetic_lambda": 1.0,
+  "iso_keep_ratio": 0.9,
+  "tasks": ["glue/sst2", "glue/qnli"]
+}
